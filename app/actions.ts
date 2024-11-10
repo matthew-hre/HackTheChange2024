@@ -71,8 +71,6 @@ export async function verifyOtpMobile(phone: string, token: string) {
 export const signOut = async () => {
   "use server";
 
-  console.log("logging out");
-
   const supabase = await createClient();
 
   const { error } = await supabase.auth.signOut();

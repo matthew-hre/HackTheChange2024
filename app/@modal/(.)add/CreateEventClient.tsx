@@ -31,7 +31,7 @@ export default function CreateEventClient({
             <h2 className="text-lg sm:text-3xl md:text-4xl font-bold tracking-tight leading-tight">
               <input
                 type="text"
-                className="border w-full"
+                className="w-full p-4"
                 placeholder="Event name"
                 id="name"
                 name="name"
@@ -39,45 +39,49 @@ export default function CreateEventClient({
             </h2>
             <p className="text-sm sm:text-base md:text-lg opacity-90">
               <textarea
-                className="border w-full"
+                className="w-full p-4 border"
+                rows={12}
                 placeholder="Event description"
                 id="description"
                 name="description"
               />
             </p>
           </div>
-          <div className="space-x-2 text-sm sm:text-base">
+          <div className="space-x-4 text-sm sm:text-base flex flex-row mt-4">
             <input
               type="date"
-              className="border"
+              className="border p-2 flex-1"
               placeholder="Event date"
               id="date"
               name="date"
             />
             <input
               type="text"
-              className="border"
+              className="border p-2 flex-1"
               placeholder="Event location"
               id="location"
               name="location"
             />
-            <input
-              type="url"
-              className="border"
-              placeholder="Event source"
-              id="source"
-              name="source"
-            />
           </div>
-          <div className="pt-2">
+          <input
+            type="url"
+            className="border w-full mt-4 p-2"
+            placeholder="Event source"
+            id="source"
+            name="source"
+          />
+          <div className="pt-4">
             <p className="text-xs sm:text-sm font-medium">
               <select
                 name="causes"
                 id="causes"
-                className="border"
-                multiple
+                className="border w-full p-2"
+                defaultValue={"select"}
                 required
               >
+                <option value="select" disabled>
+                  Select a cause
+                </option>
                 {causes.map((cause) => (
                   <option key={cause.id} value={cause.id}>
                     {cause.name}
@@ -86,8 +90,11 @@ export default function CreateEventClient({
               </select>
             </p>
           </div>
-          <button role="button" className="block border px-2 mt-4">
-            Create event
+          <button
+            role="button"
+            className="block border px-2 rounded-full bg-red-500 text-white font-bold text-lg mt-auto"
+          >
+            Create Event
           </button>
         </div>
       </div>

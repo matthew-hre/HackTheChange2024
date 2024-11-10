@@ -27,8 +27,6 @@ export async function POST(request: Request) {
     .select("phone, causes")
     .neq("phone", null);
 
-  console.log("Subscribers:", data);
-
   if (!data) {
     return NextResponse.json(
       { success: false, error: "Failed to fetch subscribers" },

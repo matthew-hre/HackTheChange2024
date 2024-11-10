@@ -56,8 +56,6 @@ function EventCard({
     ];
   const layout = layouts[Math.floor(random(event.id) * layouts.length)];
 
-  console.log(event);
-
   return (
     <Link
       href={`/e/${event.id}`}

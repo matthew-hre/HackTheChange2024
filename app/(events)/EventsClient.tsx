@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import EventCard from "@/components/EventCard";
 
 import { saveUserCausesPreferences } from "../actions";
+import { Save } from "lucide-react";
 
 export default function EventsClient({
   causes,
@@ -63,13 +64,15 @@ export default function EventsClient({
             selected={filters.includes(cause.id)}
           />
         ))}
+        <button
+          onClick={() => saveUserCausesPreferences(filters)}
+          className="border px-4 py-1 mr-auto rounded-full flex flex-row items-center gap-2 bg-emerald-600 text-white font-bold"
+        >
+          <Save size={24} />
+          Save preferences
+        </button>
       </div>
-      <button
-        onClick={() => saveUserCausesPreferences(filters)}
-        className="block border px-2 mt-4"
-      >
-        Save preferences
-      </button>
+
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-8 p-8 mt-8">
         {
           // Show a tutorial card if the user has no causes selected
@@ -92,7 +95,6 @@ function CauseWidget({
   onClick: () => void;
   selected?: boolean;
 }) {
-  console.log(cause);
   return (
     <div
       className="flex flex-row items-center justify-center border rounded-full px-4 py-1 gap-2 hover:scale-110 transition-all hover:shadow-xs hover:cursor-pointer"

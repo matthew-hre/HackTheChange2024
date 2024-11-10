@@ -9,6 +9,7 @@ import {
 import { LoginPage } from "./PageClient";
 import EventsServer from "./(events)/EventsServer";
 import Link from "next/link";
+import { Plus } from "lucide-react";
 
 export default async function Home() {
   const supabase = await createClient();
@@ -29,13 +30,29 @@ export default async function Home() {
       )}
       {user ? (
         <div className="w-full min-h-screen p-12">
-          <div className="flex flex-row gap-4 pb-4">
-            {user?.email ? user.email : user?.phone ? user.phone : null}
-            <button onClick={signOut} className="block border px-2">
+          <div className="flex flex-row gap-4 pb-4 items-center border-b mb-8">
+            <span className="text-gray-700">
+              Logged in as{" "}
+              <strong>
+                {user?.email
+                  ? user.email
+                  : user?.phone
+                  ? user.phone
+                  : "Unknown"}
+              </strong>
+            </span>
+            <button
+              onClick={signOut}
+              className="block border px-4 py-1 mr-auto rounded-full"
+            >
               Sign out
             </button>
-            <Link href="/add" className="block border px-2">
-              Add Card
+            <Link
+              href="/add"
+              className="border px-4 py-1 rounded-full flex flex-row items-center gap-2 bg-red-500 font-bold text-white"
+            >
+              <Plus size={24} />
+              Add new event
             </Link>
           </div>
           <EventsServer />
