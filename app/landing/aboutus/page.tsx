@@ -9,7 +9,7 @@ export default function Home() {
 			mixBlendMode: "hard-light"
 		  }}
 		>
-		  Hello From 'Events'
+		  Hello From 'About Us'
 		</div>
 		</div>
 	);

@@ -1,7 +1,7 @@
 export default function Home() {
 	return (
 		<div >
-			Hello From 'About Us'
+			Hello From 'landing'
 		</div>
 	);
 
