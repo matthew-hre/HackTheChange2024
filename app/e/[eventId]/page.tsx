@@ -4,7 +4,7 @@ import { createClient } from "@/utils/supabase/server";
 export default async function EventPage({
   params,
 }: {
-  params: { eventId: string };
+  params: Promise<{ eventId: string }>;
 }) {
   const p = await params;
 

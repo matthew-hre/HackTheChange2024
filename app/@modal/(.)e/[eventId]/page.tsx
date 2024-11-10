@@ -4,18 +4,18 @@ import CreateEventClient from "./EventClient";
 export default async function EventPage({
   params,
 }: {
-  params: { eventId: string };
+  params: Promise<{ eventId: string }>;
 }) {
   const supabase = await createClient();
 
-  const { eventId } = await params;
+  const p = await params;
 
   const { data: causes } = await supabase.from("causes").select("*");
 
   const { data: event } = await supabase
     .from("events")
     .select("*")
-    .eq("id", eventId)
+    .eq("id", p.eventId)
     .single();
 
   return <CreateEventClient event={event} causes={causes ?? []} />;
