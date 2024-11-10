@@ -8,6 +8,7 @@ import {
 } from "./actions";
 import { LoginPage } from "./PageClient";
 import EventsServer from "./(events)/EventsServer";
+import Link from "next/link";
 
 export default async function Home() {
   const supabase = await createClient();
@@ -17,7 +18,7 @@ export default async function Home() {
   } = await supabase.auth.getUser();
 
   return (
-    <div className="font-[family-name:var(--font-geist-sans)] p-12 space-y-4 min-h-screen">
+    <div className="font-[family-name:var(--font-geist-sans)] space-y-4 min-h-screen">
       {user ? null : (
         <LoginPage
           loginWithOTPEmailAction={loginWithOTPEmailAction}
@@ -27,12 +28,15 @@ export default async function Home() {
         />
       )}
       {user ? (
-        <div className="w-full min-h-screen">
+        <div className="w-full min-h-screen p-12">
           <div className="flex flex-row gap-4 pb-4">
             {user?.email ? user.email : user?.phone ? user.phone : null}
             <button onClick={signOut} className="block border px-2">
               Sign out
             </button>
+            <Link href="/add" className="block border px-2">
+              Add Card
+            </Link>
           </div>
           <EventsServer />
         </div>

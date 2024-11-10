@@ -1,8 +1,8 @@
 "use client";
 
-import { LucideIcon, Calendar, MapPin, Link as LinkIcon } from "lucide-react";
+import { Calendar, LinkIcon, LucideIcon, MapPin } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { random } from "@/utils/math";
-import Link from "next/link";
 
 const fontFamilies = [
   "font-serif",
@@ -26,10 +26,11 @@ const backgroundPatterns = [
 
 const layouts = ["grid grid-rows-[auto_1fr_auto]"];
 
-function EventCard({
-  event,
+export default function CreateEventClient({
   causes,
+  event,
 }: {
+  causes: { id: number; name: string }[];
   event: {
     id: number;
     name: string;
@@ -39,11 +40,13 @@ function EventCard({
     source: string;
     causes: number[];
   };
-  causes: {
-    id: number;
-    name: string;
-  }[];
 }) {
+  const router = useRouter();
+
+  const handleClose = () => {
+    router.back();
+  };
+
   const rotation = Math.ceil(random(event.id) * 8 - 4);
   const translateX = Math.ceil(random(event.id) * 40 - 20);
   const translateY = Math.ceil(random(event.id) * 40 - 20);
@@ -56,45 +59,33 @@ function EventCard({
     ];
   const layout = layouts[Math.floor(random(event.id) * layouts.length)];
 
-  console.log(event);
-
   return (
-    <Link
-      href={`/e/${event.id}`}
-      className="relative w-full h-full group hover:z-50 hover:rotate-0"
-      style={{
-        transform: `rotate(${rotation}deg) translate(${translateX}px, ${translateY}px)`,
-      }}
-    >
+    <div className="absolute z-50 left-0 top-0 w-full h-full flex items-center justify-center">
       <div
-        className="absolute -top-2 -left-2 w-6 h-6 rounded-full shadow-md transform z-10 group-hover:z-10 transition-transform"
+        className="absolute z-0 left-0 top-0 w-full h-full bg-black bg-opacity-50"
+        onClick={handleClose}
+      ></div>
+      <div
+        className={`${backgroundPattern} ${fontFamily} text-black border border-gray-300 shadow-lg overflow-hidden z-100 transform aspect-[3/4] max-w-screen-sm`}
         style={{
-          backgroundColor: `#${random(event.causes[0] || 0)
-            .toString(16)
-            .slice(2, 8)}`,
+          transform: `rotate(${rotation}deg) translate(${translateX}px, ${translateY}px)`,
         }}
-      >
-        <div
-          className="absolute top-1 left-1 w-4 h-4 rounded-full shadow-md transform z-10 group-hover:z-10 transition-transform"
-          style={{
-            backgroundColor: `#ccc`,
-            mixBlendMode: "multiply",
-          }}
-        ></div>
-      </div>
-      <div
-        className={`${backgroundPattern} ${fontFamily} text-black border border-gray-300 shadow-lg overflow-hidden aspect-[3/4]`}
       >
         <div className={`relative h-full ${layout} p-4 gap-4`}>
           <div className="space-y-2">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight leading-tight">
+            <h2 className="text-4xl sm:text-3xl md:text-4xl font-bold tracking-tight leading-tight">
               {event.name}
             </h2>
-            <p className="text-sm sm:text-base md:text-lg opacity-90">
-              {event.description.split("\n")[0]}
-            </p>
+            {event.description.split("\n").map((line, index) => (
+              <p
+                key={index}
+                className="text-sm sm:text-base md:text-lg opacity-90"
+              >
+                {line}
+              </p>
+            ))}
           </div>
-          <div className="space-y-2 text-sm sm:text-base">
+          <div className="space-y-2 text-sm sm:text-base mt-auto">
             <EventDetail
               Icon={Calendar}
               text={new Date(event.date).toLocaleString()}
@@ -102,17 +93,27 @@ function EventCard({
             <EventDetail Icon={MapPin} text={event.location} />
             <EventDetail Icon={LinkIcon} text={`Source: ${event.source}`} />
           </div>
-          <div className="pt-2 border-t border-current">
+          <div className="pt-2 border-t border-current flex flex-row justify-between">
             <p className="text-xs sm:text-sm font-medium">
               {event.causes
                 .map((causeId: number) => findCauseById(causes || [], causeId))
                 .map((cause: { id: number; name: string }) => cause.name)
                 .join(", ")}
             </p>
+            <button
+              className="text-xs sm:text-sm font-medium"
+              onClick={() => {
+                navigator.clipboard.writeText(
+                  `${window.location.origin}/e/${event.id}`
+                );
+              }}
+            >
+              Copy link
+            </button>
           </div>
         </div>
       </div>
-    </Link>
+    </div>
   );
 }
 
@@ -128,5 +129,3 @@ function EventDetail({ Icon, text }: { Icon: LucideIcon; text: string }) {
 function findCauseById(causes: { id: number; name: string }[], id: number) {
   return causes.find((cause) => cause.id === id) || { id, name: "Unknown" };
 }
-
-export default EventCard;
