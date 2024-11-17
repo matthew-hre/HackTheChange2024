@@ -53,7 +53,8 @@ export default {
   			}
   		},
   		fontFamily: {
-  			grafitti: 'var(--font-credible)'
+  			grafitti: 'var(--font-credible)',
+			// glamour: 'var(--font-glamour)',
   		},
   		borderRadius: {
   			lg: 'var(--radius)',

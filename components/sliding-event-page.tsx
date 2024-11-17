@@ -3,7 +3,8 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Calendar, Clock, MapPin, X, ChevronLeft } from 'lucide-react'
-import { Button } from 'button'
+import { Button } from "@/components/ui/button"
+
 
 export default function SlidingEventPage() {
   const [isVisible, setIsVisible] = useState(false)
@@ -11,7 +12,7 @@ export default function SlidingEventPage() {
   const toggleVisibility = () => setIsVisible(!isVisible)
 
   return (
-    <div className="min-h-screen bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center p-4">
+    <div className="min-h-screen flex items-center justify-center p-4">
       <Button 
         onClick={toggleVisibility} 
         className="fixed right-4 top-1/2 -translate-y-1/2 z-50"
@@ -22,9 +23,9 @@ export default function SlidingEventPage() {
 
       <motion.div
         initial={{ x: '100%' }}
-        animate={{ x: isVisible ? '50%' : '100%' }}
+        animate={{ x: isVisible ? '0%' : '100%' }}
         transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-        className="fixed top-0 right-0 w-full sm:w-[400px] h-full bg-background shadow-lg overflow-y-auto"
+        className="fixed top-0 right-0 w-full sm:w-[600px] h-full bg-background shadow-lg overflow-y-auto"
       >
         <div className="p-6 relative">
           <Button
